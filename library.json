@@ -1,0 +1,12 @@
+{
+    "id": "{34582400-6A30-15F7-52E8-86E22583FBED}",
+    "name": "Daikin WLAN Klimasteuerung",
+    "author": "Michael W. Schneider",
+    "url": "",
+    "compatibility": {
+        "version": "5.0"
+    },
+    "version": "1.0",
+    "build": 0,
+    "date": 0
+}
