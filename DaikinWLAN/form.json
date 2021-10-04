@@ -1,0 +1,120 @@
+{
+    "elements": [
+        {
+            "name": "IPAddress",
+			"type": "ValidationTextBox",
+			"caption": "IP-Adresse Innengerät"
+        },
+        {
+            "name": "Interval",
+			"type": "NumberSpinner",
+			"caption": "Abfrageintervall",
+			"suffix": "Sekunden"
+        },
+        { 
+			"name": "Streamer", 
+			"type": "Select",
+			"caption": "Streamer",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Leistungsstark", 
+			"type": "Select",
+			"caption": "Leistungsstark",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Aussentemp", 
+			"type": "Select",
+			"caption": "Außentemperatur",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Istfeuchte", 
+			"type": "Select",
+			"caption": "Istfeuchte",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Sollfeuchte", 
+			"type": "Select",
+			"caption": "Sollfeuchte",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+		{ 
+			"name": "Compressor", 
+			"type": "Select",
+			"caption": "Kompressorauslastung",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "MacAddress", 
+			"type": "Select",
+			"caption": "MAC Adresse",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Firmware", 
+			"type": "Select",
+			"caption": "Firmwareversion",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "Errormessage", 
+			"type": "Select",
+			"caption": "Fehlermeldungen",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
+			"name": "StatusEmulieren", 
+			"type": "CheckBox",
+			"caption": "Status emulieren"
+		}        
+    ],
+    "actions": [
+		{
+			"type": "Button",
+			"caption": "Werte lesen",
+			"onClick": "DKN_RequestRead($id);"
+		}
+    ],
+    "status":   [
+        {
+          "code":    202,
+          "icon":    "error",
+          "caption": "IP-Adresse darf nicht leer sein."
+        },
+        {
+          "code":    204,
+          "icon":    "error",
+          "caption": "IP-Addresse ist nicht gültig."
+        }
+      ]
+}

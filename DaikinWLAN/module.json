@@ -1,0 +1,13 @@
+{
+    "id": "{7C0C3581-9235-443D-0944-13D40CBD5BD5}",
+    "name": "DaikinWLAN",
+    "type": 3,
+    "vendor": "Daikin",
+    "aliases": [
+		  "Daikin WLAN Klimasteuerung"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "DKN",
+    "url": ""
+}
