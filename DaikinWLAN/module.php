@@ -541,7 +541,7 @@
 			switch ($Value){
 				case 1:
 					$data['mode'] = $Value;
-					$data['stemp'] = $this->ReadAttributeFloat('autoTemp');
+					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('autoTemp')));
 					$data['f_rate'] = $this->ReadAttributeString('autoSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('autoDir');
 					$data['shum'] = $this->ReadAttributeInteger('autoHum');
@@ -554,14 +554,14 @@
 					break;
 				case 3:
 					$data['mode'] = $Value;
-					$data['stemp'] = $this->ReadAttributeFloat('coolTemp');
+					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('coolTemp')));
 					$data['f_rate'] = $this->ReadAttributeString('coolSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('coolDir');
 					$data['shum'] = $this->ReadAttributeInteger('coolHum');
 					break;
 				case 4:
 					$data['mode'] = $Value;
-					$data['stemp'] = $this->ReadAttributeFloat('heatTemp');
+					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('heatTemp')));
 					$data['f_rate'] = $this->ReadAttributeString('heatSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('heatDir');
 					$data['shum'] = $this->ReadAttributeInteger('heatHum');
@@ -585,6 +585,49 @@
 			$this->WriteAircon($data);
 		}
 
+		protected function CreateVariableProfiles() {
+			$profileName = "Daikin.Temperature";
+			if(!IPS_VariableProfileExists($profileName)) {
+				IPS_CreateVariableProfile($profileName, 2);
+			}
+			IPS_SetVariableProfileText($profileName, "", " °C");
+			IPS_SetVariableProfileDigits($profileName, 1);
+			IPS_SetVariableProfileValues($profileName, 10, 32, 0.5);
+			IPS_SetVariableProfileIcon($profileName,  "Temperature");
+			
+			
+			$profileName = "Daikin.Mode";
+			if(!IPS_VariableProfileExists($profileName)) {
+				IPS_CreateVariableProfile($profileName, 1);
+			}
+			IPS_SetVariableProfileAssociation($profileName, 1, "Automatik", "Gear", 0x3366FF);
+			IPS_SetVariableProfileAssociation($profileName, 2, "Entfeuchten", "Drops", 0x99CD00);
+			IPS_SetVariableProfileAssociation($profileName, 3, "Kühlen", "Snowflake", 0x00FEFC);
+			IPS_SetVariableProfileAssociation($profileName, 4, "Heizen", "Flame", 0xFE0000);
+			IPS_SetVariableProfileAssociation($profileName, 6, "Lüften", "Shuffle", 0xFFFF9A);
+
+			
+			$profileName = "Daikin.FanDirection";
+			if(!IPS_VariableProfileExists($profileName)) {
+				IPS_CreateVariableProfile($profileName, 1);
+			}
+			IPS_SetVariableProfileAssociation($profileName, 0, "Aus", "", 0x00FF01);
+			IPS_SetVariableProfileAssociation($profileName, 1, "Vertikal", "", 0xFFFF01);
+			IPS_SetVariableProfileAssociation($profileName, 2, "Horizontal", "", 0xFFCC00);
+			IPS_SetVariableProfileAssociation($profileName, 3, "3D", "", 0xFE0000);
+
+			$profileName = "Daikin.FanRate";
+			if(!IPS_VariableProfileExists($profileName)) {
+				IPS_CreateVariableProfile($profileName, 1);
+			}
+			IPS_SetVariableProfileAssociation($profileName, 0, "Auto", "", 0xFFFF01);
+			IPS_SetVariableProfileAssociation($profileName, 1, "Silence", "", 0x00FF01);
+			IPS_SetVariableProfileAssociation($profileName, 2, "Stufe 1", "", 0xFFCD9A);
+			IPS_SetVariableProfileAssociation($profileName, 3, "Stufe 2", "", 0xFFCC00);
+			IPS_SetVariableProfileAssociation($profileName, 4, "Stufe 3", "", 0xFF9900);
+			IPS_SetVariableProfileAssociation($profileName, 5, "Stufe 4", "", 0xFF6600);
+			IPS_SetVariableProfileAssociation($profileName, 6, "Stufe 5", "", 0x993302);
+		}
 		protected function CreateVariableProfiles() {
 			$profileName = "Daikin.Temperature";
 			if(!IPS_VariableProfileExists($profileName)) {
