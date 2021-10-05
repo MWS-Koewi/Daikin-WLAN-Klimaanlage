@@ -10,6 +10,7 @@ Beschreibung des Moduls.
 5. [Statusvariablen und Profile](#5-statusvariablen-und-profile)
 6. [WebFront](#6-webfront)
 7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
+8. [Sonstiges](#8-sonstiges)
 
 ### 1. Funktionsumfang
 
@@ -90,9 +91,16 @@ dknMAC              | MAC Adresse           | String |                       | M
 Je nach gewähltem Modus werden im WebFront die einzelnen, der Instanz direkt untergeordneten Controls sichtbar/unsichtbar geschaltet.
 
 ### 7. PHP-Befehlsreferenz
+Das Modul stellt folgende PHP-Befehle zur Verfügung.
 
-`boolean DKN_BeispielFunktion(integer $InstanzID);`
-Erklärung der Funktion.
+Alle PHP-Befehle erhalten den Prefix DKN_
 
-Beispiel:
-`DKN_BeispielFunktion(12345);`
+`RequestRead()`
+Liest alle Werte der Steuerung aus
+
+`SetPowerSwitch(bool $Wert)`
+Schaltet die Anlage ein oder aus
+
+### 8. Sonstiges
+Verwendung auf eigene Gefahr, der Autor übernimmt weder Gewähr noch Haftung. 
+Nur für den privaten Gebrauch.
