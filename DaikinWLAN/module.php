@@ -21,8 +21,8 @@
 			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 11, "anzeige" => "str", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
 			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 12, "anzeige" => "bos", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
 			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 13, "anzeige" => "err", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
-			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "fw",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
-			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "mac", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
+			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
+			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "inf", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
 		);
 
 		var $aQueryTypes = array("common/basic_info", "aircon/get_control_info", "aircon/get_sensor_info");
@@ -79,8 +79,7 @@
 			$this->RegisterPropertyInteger('Sollfeuchte', 1);
 			$this->RegisterPropertyInteger('Aussentemp', 1);
 			$this->RegisterPropertyInteger('Compressor', 1);
-			$this->RegisterPropertyInteger('MacAddress', 0);
-			$this->RegisterPropertyInteger('Firmware', 0);
+			$this->RegisterPropertyInteger('Infos', 0);
 			$this->RegisterPropertyInteger('Streamer', 1);
 			$this->RegisterPropertyInteger('Leistungsstark', 1);
 			$this->RegisterPropertyInteger('Errormessage', 1);
@@ -165,13 +164,7 @@
 					continue;
 				}
 
-				if($property['anzeige'] == "fw" && $this->ReadPropertyInteger("Firmware") == 0) {
-					@$this->DisableAction($property['ident']);
-					$this->UnregisterVariable($property['ident']);
-					continue;
-				}
-
-				if($property['anzeige'] == "mac" && $this->ReadPropertyInteger("MacAddress") == 0) {
+				if($property['anzeige'] == "inf" && $this->ReadPropertyInteger("Infos") == 0) {
 					@$this->DisableAction($property['ident']);
 					$this->UnregisterVariable($property['ident']);
 					continue;
@@ -238,8 +231,7 @@
 				if($Variable['anzeige'] == "out" && $this->ReadPropertyInteger("Aussentemp") == 0) {continue;}
 				if($Variable['anzeige'] == "aus" && $this->ReadPropertyInteger("Compressor") == 0) {continue;}
 				if($Variable['anzeige'] == "err" && $this->ReadPropertyInteger("Errormessage") == 0) {continue;}
-				if($Variable['anzeige'] == "fw"  && $this->ReadPropertyInteger("Firmware") == 0) {continue;}
-				if($Variable['anzeige'] == "mac" && $this->ReadPropertyInteger("MacAddress") == 0) {continue;}
+				if($Variable['anzeige'] == "inf"  && $this->ReadPropertyInteger("Infos") == 0) {continue;}
 				if($Variable['anzeige'] == "hui" && $this->ReadPropertyInteger("Istfeuchte") == 0) {continue;}
 				if($Variable['anzeige'] == "hus" && $this->ReadPropertyInteger("Sollfeuchte") == 0) {continue;}
 				if($Variable['anzeige'] == "str" && $this->ReadPropertyInteger("Streamer") == 0) {continue;}
@@ -747,3 +739,4 @@
 			}
 		}		
 	}
+
