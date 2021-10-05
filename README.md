@@ -71,7 +71,7 @@ ID                  | Name                  | Typ    | Profil                | B
 ------------------- | --------------------- | ------ | --------------------- | ---------------------------------------
 dknPowerSwitch      | Status                | Bool   | ~Switch	             | Gerät ein und aus Schalten
 dknCurrentTemp      | Temperatur Istwert    | Float  | ~Temperature          | Gemessene Ist Temperatur
-dknCurrentHumidity  | Feuchte Istwerr       | Int    | ~Humidity             | Gemessene Feuchtigkeit
+dknCurrentHumidity  | Feuchte Istwert       | Int    | ~Humidity             | Gemessene Feuchtigkeit
 dknSetTempValue     | Temperatur Sollwert   | Float  | Daikin.Temperature    | Soll Temperatur 
 dknSetHumidityValue | Feuchte Sollwert      | Int    | ~Humidity             | Soll Luftfeuchte
 dknCurrentOutTemp   | Temperatur Außen      | Float  | ~Temperature          | Außentemperatur
