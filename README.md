@@ -1,4 +1,4 @@
-# Daikin WLAN Klimasteuerung
+# DaikinWLAN
 Beschreibung des Moduls.
 
 ### Inhaltsverzeichnis
@@ -91,6 +91,7 @@ dknMAC              | MAC Adresse           | String |                       | M
 Je nach gewähltem Modus werden im WebFront die einzelnen, der Instanz direkt untergeordneten Controls sichtbar/unsichtbar geschaltet.
 
 ### 7. PHP-Befehlsreferenz
+
 Das Modul stellt folgende PHP-Befehle zur Verfügung.
 
 Alle PHP-Befehle erhalten den Prefix DKN_
@@ -100,6 +101,27 @@ Liest alle Werte der Steuerung aus
 
 `SetPowerSwitch(bool $Wert)`
 Schaltet die Anlage ein oder aus
+
+`SetStreamerValue(bool $Wert)`
+Schaltet den Luftreiniger ein oder aus
+
+`SetBoosterValue(bool $Wert)`
+Schaltet den Modus "Leistungsstark" ein oder aus. Der Modus "Leistungsstark" kann nur eingeschaltet werden, wenn die Anlage eingeschaltet ist.
+
+`SetHumidityValue(int $Wert)`
+Setzt die gewünschte Soll Luftfeuchtigkeit
+
+`SetTempValue(int $Wert)`
+Setzt die gewünschte Soll Temperatur. Eine Änderung Solltemperatur ist nur möglich, wenn der Modus nicht "Entfeuchten" oder "Lüften" gesetzt ist.
+
+`SetFanRateValue(int $Wert)`
+Setzt die gewünschte Lüfetrstufe. Diese kann nur geändert werden, wenn nicht der Booster eingeschaltet ist.
+
+`SetFanDirValue(int $Wert)`
+Setzt die gewünschte Richtung in der die Lammelen schwenken sollen.
+
+`SetModueValue(int $Wert)`
+Setzt den gewünschen Modus der Anlage. 
 
 ### 8. Sonstiges
 Verwendung auf eigene Gefahr, der Autor übernimmt weder Gewähr noch Haftung. 
