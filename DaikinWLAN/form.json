@@ -66,18 +66,9 @@
 			]
 		},
         { 
-			"name": "MacAddress", 
+			"name": "Infos", 
 			"type": "Select",
-			"caption": "MAC Adresse",
-			"options": [
-				{ "caption": "Anzeigen", 	"value": 1 },
-				{ "caption": "Nicht anzeigen", "value": 0 }
-			]
-		},
-        { 
-			"name": "Firmware", 
-			"type": "Select",
-			"caption": "Firmwareversion",
+			"caption": "Zusatzinfos",
 			"options": [
 				{ "caption": "Anzeigen", 	"value": 1 },
 				{ "caption": "Nicht anzeigen", "value": 0 }
