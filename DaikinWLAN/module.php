@@ -15,13 +15,13 @@
 			array("name" => "Feuchte Sollwert",      "ident" => "dknSetHumidityValue",  "pos" => 6,  "anzeige" => "hus", "varType" => 1,  "varProfile" => "~Humidity",            "queryType" => "get_control_info",   "value"=>"shum",    "varHasAction" => true),
 			array("name" => "Temperatur Außen",      "ident" => "dknCurrentOutTemp",    "pos" => 2,  "anzeige" => "out", "varType" => 2,  "varProfile" => "~Temperature",         "queryType" => "get_sensor_info",    "value"=>"otemp",   "varHasAction" => false),
 			array("name" => "Modus",                 "ident" => "dknSetModeValue",      "pos" => 7,  "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.Mode",          "queryType" => "get_control_info",   "value"=>"mode",    "varHasAction" => true),
-			array("name" => "Kompressor Auslastung", "ident" => "dknCompressor",        "pos" => 8,  "anzeige" => "aus", "varType" => 1,  "varProfile" => "~Intensity.100",       "queryType" => "get_sensor_info",    "value"=>"cmpfreq", "varHasAction" => false),
-			array("name" => "Lüfterstufe",           "ident" => "dknSetFanRateValue",   "pos" => 9,  "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanRate",       "queryType" => "get_control_info",   "value"=>"f_rate",  "varHasAction" => true),
-			array("name" => "Lüfterrichtung",        "ident" => "dknSetFanDirValue",    "pos" => 10, "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanDirection",  "queryType" => "get_control_info",   "value"=>"f_dir",   "varHasAction" => true),
-			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 11, "anzeige" => "str", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
-			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 12, "anzeige" => "bos", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
+			array("name" => "Kompressor Auslastung", "ident" => "dknCompressor",        "pos" => 12,  "anzeige" => "aus", "varType" => 1,  "varProfile" => "~Intensity.100",       "queryType" => "get_sensor_info",    "value"=>"cmpfreq", "varHasAction" => false),
+			array("name" => "Lüfterstufe",           "ident" => "dknSetFanRateValue",   "pos" => 8, "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanRate",       "queryType" => "get_control_info",   "value"=>"f_rate",  "varHasAction" => true),
+			array("name" => "Lüfterrichtung",        "ident" => "dknSetFanDirValue",    "pos" => 9,  "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanDirection",  "queryType" => "get_control_info",   "value"=>"f_dir",   "varHasAction" => true),
+			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 10, "anzeige" => "str", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
+			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 11, "anzeige" => "bos", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
 			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 13, "anzeige" => "err", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
-			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
+			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
 			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "inf", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
 		);
 
@@ -381,7 +381,7 @@
 
 			$context = stream_context_create($options); 
 			$content = http_build_query($data);
-			//$this->LogMessage("$content", KL_NOTIFY);
+			$this->LogMessage("http://$ip/aircon/set_special_mode?$content", KL_NOTIFY);
 			$result  = @file_get_contents("http://$ip/aircon/set_special_mode?$content", false, $context); 
 			$data = explode(",", $result);
 			if($data[0] !== "ret=OK") {
@@ -425,7 +425,7 @@
 
 			$context = stream_context_create($options); 
 			$content = http_build_query($data);
-			$this->LogMessage("$content", KL_NOTIFY);
+			$this->LogMessage("http://$ip/aircon/set_special_mode?$content", KL_NOTIFY);
 			$result  = @file_get_contents("http://$ip/aircon/set_special_mode?$content", false, $context); 
 			$data = explode(",", $result);
 			if($data[0] !== "ret=OK") {
@@ -469,7 +469,7 @@
 
 			$data = $this->ReadValues();
 			$data['f_rate'] = $this->aTranslatefRateWrite[$Value];
-			$this->LogMessage($data['f_rate'], KL_NOTIFY);
+			//$this->LogMessage($data['f_rate'], KL_NOTIFY);
 			$this->WriteAircon($data);
 		}
 
@@ -665,7 +665,7 @@
 			);				
 
 			$content = http_build_query($data);
-			//$this->LogMessage("$content", KL_NOTIFY);
+			$this->LogMessage("http://$ip/aircon/set_control_info?$content", KL_NOTIFY);
 
 			$ip = $this->ReadPropertyString('IPAddress');
 			$context = stream_context_create($options); 
