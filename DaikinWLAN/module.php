@@ -485,6 +485,10 @@
 		}
 
 		public function SetTempValue(float $Value){
+			
+			$id = $this->GetIDForIdent('dknSetBooster');
+			if(GetValueBoolean($id) == 1) return;
+
 			$id = $this->GetIDForIdent('dknSetModeValue');
 			switch (GetValueInteger($id)){
 				case 1:
@@ -739,4 +743,3 @@
 			}
 		}		
 	}
-

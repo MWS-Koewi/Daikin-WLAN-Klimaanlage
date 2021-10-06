@@ -112,7 +112,7 @@ Schaltet den Modus "Leistungsstark" ein oder aus. Der Modus "Leistungsstark" kan
 Setzt die gewünschte Soll Luftfeuchtigkeit
 
 `SetTempValue(int $Wert)`
-Setzt die gewünschte Soll Temperatur. Eine Änderung Solltemperatur ist nur möglich, wenn der Modus nicht auf "Entfeuchten" oder "Lüften" gesetzt ist und wenn der Boster nicht eingeschaltet ist.
+Setzt die gewünschte Soll Temperatur. Eine Änderung Solltemperatur ist nur möglich, wenn der Modus nicht auf "Entfeuchten" oder "Lüften" gesetzt ist.
 
 `SetFanRateValue(int $Wert)`
 Setzt die gewünschte Lüfetrstufe. Diese kann nur geändert werden, wenn nicht der Booster eingeschaltet ist.
