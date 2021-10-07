@@ -8,21 +8,21 @@
 		private const STATUS_INST_IP_IS_INVALID = 204; //IP Adresse ist ungültig
 
 		var $Daikin_Properties = array(
-			array("name" => "Status",                "ident" => "dknPowerSwitch",       "pos" => 1,  "anzeige" => "",    "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "basic_info",         "value"=>"pow",     "varHasAction" => true),
-			array("name" => "Temperatur Istwert",    "ident" => "dknCurrentTemp",       "pos" => 3,  "anzeige" => "",    "varType" => 2,  "varProfile" => "~Temperature",         "queryType" => "get_sensor_info",    "value"=>"htemp",   "varHasAction" => false),
-			array("name" => "Feuchte Istwert",       "ident" => "dknCurrentHumidity",   "pos" => 5,  "anzeige" => "hui", "varType" => 1,  "varProfile" => "~Humidity",            "queryType" => "get_sensor_info",    "value"=>"hhum",    "varHasAction" => false),
-			array("name" => "Temperatur Sollwert",   "ident" => "dknSetTempValue",      "pos" => 4,  "anzeige" => "",    "varType" => 2,  "varProfile" => "Daikin.Temperature",   "queryType" => "get_control_info",   "value"=>"stemp",   "varHasAction" => true),
-			array("name" => "Feuchte Sollwert",      "ident" => "dknSetHumidityValue",  "pos" => 6,  "anzeige" => "hus", "varType" => 1,  "varProfile" => "~Humidity",            "queryType" => "get_control_info",   "value"=>"shum",    "varHasAction" => true),
-			array("name" => "Temperatur Außen",      "ident" => "dknCurrentOutTemp",    "pos" => 2,  "anzeige" => "out", "varType" => 2,  "varProfile" => "~Temperature",         "queryType" => "get_sensor_info",    "value"=>"otemp",   "varHasAction" => false),
-			array("name" => "Modus",                 "ident" => "dknSetModeValue",      "pos" => 7,  "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.Mode",          "queryType" => "get_control_info",   "value"=>"mode",    "varHasAction" => true),
-			array("name" => "Kompressor Auslastung", "ident" => "dknCompressor",        "pos" => 12,  "anzeige" => "aus", "varType" => 1,  "varProfile" => "~Intensity.100",       "queryType" => "get_sensor_info",    "value"=>"cmpfreq", "varHasAction" => false),
-			array("name" => "Lüfterstufe",           "ident" => "dknSetFanRateValue",   "pos" => 8, "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanRate",       "queryType" => "get_control_info",   "value"=>"f_rate",  "varHasAction" => true),
-			array("name" => "Lüfterrichtung",        "ident" => "dknSetFanDirValue",    "pos" => 9,  "anzeige" => "",    "varType" => 1,  "varProfile" => "Daikin.FanDirection",  "queryType" => "get_control_info",   "value"=>"f_dir",   "varHasAction" => true),
-			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 10, "anzeige" => "str", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
-			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 11, "anzeige" => "bos", "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
-			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 13, "anzeige" => "err", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
-			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
-			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "inf", "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
+			array("name" => "Status",                "ident" => "dknPowerSwitch",       "pos" => 1,  "anzeige" => "",     "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "basic_info",         "value"=>"pow",     "varHasAction" => true),
+			array("name" => "Temperatur Istwert",    "ident" => "dknCurrentTemp",       "pos" => 3,  "anzeige" => "",     "varType" => 2,  "varProfile" => "~Temperature",         "queryType" => "get_sensor_info",    "value"=>"htemp",   "varHasAction" => false),
+			array("name" => "Feuchte Istwert",       "ident" => "dknCurrentHumidity",   "pos" => 5,  "anzeige" => "hui",  "varType" => 1,  "varProfile" => "~Humidity",            "queryType" => "get_sensor_info",    "value"=>"hhum",    "varHasAction" => false),
+			array("name" => "Temperatur Sollwert",   "ident" => "dknSetTempValue",      "pos" => 4,  "anzeige" => "",     "varType" => 2,  "varProfile" => "Daikin.Temperature",   "queryType" => "get_control_info",   "value"=>"stemp",   "varHasAction" => true),
+			array("name" => "Feuchte Sollwert",      "ident" => "dknSetHumidityValue",  "pos" => 6,  "anzeige" => "hus",  "varType" => 1,  "varProfile" => "~Humidity",            "queryType" => "get_control_info",   "value"=>"shum",    "varHasAction" => true),
+			array("name" => "Temperatur Außen",      "ident" => "dknCurrentOutTemp",    "pos" => 2,  "anzeige" => "out",  "varType" => 2,  "varProfile" => "~Temperature",         "queryType" => "get_sensor_info",    "value"=>"otemp",   "varHasAction" => false),
+			array("name" => "Modus",                 "ident" => "dknSetModeValue",      "pos" => 7,  "anzeige" => "",     "varType" => 1,  "varProfile" => "Daikin.Mode",          "queryType" => "get_control_info",   "value"=>"mode",    "varHasAction" => true),
+			array("name" => "Lüfterstufe",           "ident" => "dknSetFanRateValue",   "pos" => 8,  "anzeige" => "",     "varType" => 1,  "varProfile" => "Daikin.FanRate",       "queryType" => "get_control_info",   "value"=>"f_rate",  "varHasAction" => true),
+			array("name" => "Lüfterrichtung",        "ident" => "dknSetFanDirValue",    "pos" => 9,  "anzeige" => "",     "varType" => 1,  "varProfile" => "Daikin.FanDirection",  "queryType" => "get_control_info",   "value"=>"f_dir",   "varHasAction" => true),
+			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 10, "anzeige" => "str",  "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
+			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 11, "anzeige" => "bos",  "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
+			array("name" => "Kompressor Auslastung", "ident" => "dknCompressor",        "pos" => 12, "anzeige" => "aus",  "varType" => 1,  "varProfile" => "~Intensity.100",       "queryType" => "get_sensor_info",    "value"=>"cmpfreq", "varHasAction" => false),
+			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 13, "anzeige" => "err",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
+			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
+			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
 		);
 
 		var $aQueryTypes = array("common/basic_info", "aircon/get_control_info", "aircon/get_sensor_info");
@@ -628,7 +628,10 @@
 		private function ReadValues(){
 			$data = array();
 			foreach ($this->Daikin_Properties as $Variable) {
-				if($Variable['ident'] == 'dknSetHumidityValue' and $this->ReadPropertyInteger("Sollfeuchte") == 0){ continue;} 
+				if($Variable['ident'] == 'dknSetHumidityValue' and $this->ReadPropertyInteger("Sollfeuchte") == 0){
+					 $data += ['shum' => 0]; 
+					 continue;
+					} 
 				if ($Variable['varHasAction'] == true) {
 					
 					$wert="";
@@ -677,8 +680,6 @@
 			else{
 				$this->QueryAircon();
 			}
-
-
 		}
 
 		private function QueryAircon(){
