@@ -85,9 +85,9 @@
 			$this->RegisterPropertyInteger('Errormessage', 1);
 			$this->RegisterPropertyInteger('Interval', 0);
 
-			$this->RegisterAttributeFloat('autoTemp', 0);
-			$this->RegisterAttributeFloat('coolTemp', 0);
-			$this->RegisterAttributeFloat('heatTemp', 0);
+			$this->RegisterAttributeFloat('autoTemp', 20);
+			$this->RegisterAttributeFloat('coolTemp', 20);
+			$this->RegisterAttributeFloat('heatTemp', 20);
 			
 			$this->RegisterAttributeString('autoSpeed', "");
 			$this->RegisterAttributeString('dhumSpeed', "");
@@ -101,10 +101,10 @@
 			$this->RegisterAttributeInteger('heatDir', 0);
 			$this->RegisterAttributeInteger('fanDir', 0);
 
-			$this->RegisterAttributeInteger('autoHum', 0);
-			$this->RegisterAttributeInteger('dhumHum', 0);
-			$this->RegisterAttributeInteger('coolHum', 0);
-			$this->RegisterAttributeInteger('heatHum', 0);
+			$this->RegisterAttributeInteger('autoHum', 20);
+			$this->RegisterAttributeInteger('dhumHum', 20);
+			$this->RegisterAttributeInteger('coolHum', 20);
+			$this->RegisterAttributeInteger('heatHum', 20);
 
 			$this->RegisterTimer('UpdateTimer', 0, 'DKN_RequestRead($_IPS["TARGET"]);');
 
@@ -231,7 +231,7 @@
 				if($Variable['anzeige'] == "out" && $this->ReadPropertyInteger("Aussentemp") == 0) {continue;}
 				if($Variable['anzeige'] == "aus" && $this->ReadPropertyInteger("Compressor") == 0) {continue;}
 				if($Variable['anzeige'] == "err" && $this->ReadPropertyInteger("Errormessage") == 0) {continue;}
-				if($Variable['anzeige'] == "inf"  && $this->ReadPropertyInteger("Infos") == 0) {continue;}
+				if($Variable['anzeige'] == "inf" && $this->ReadPropertyInteger("Infos") == 0) {continue;}
 				if($Variable['anzeige'] == "hui" && $this->ReadPropertyInteger("Istfeuchte") == 0) {continue;}
 				if($Variable['anzeige'] == "hus" && $this->ReadPropertyInteger("Sollfeuchte") == 0) {continue;}
 				if($Variable['anzeige'] == "str" && $this->ReadPropertyInteger("Streamer") == 0) {continue;}
@@ -296,9 +296,9 @@
 				}
 			}
 
-			$this->WriteAttributeFloat('autoTemp', $aData["get_control_info"]['dt1']);
-			$this->WriteAttributeFloat('coolTemp', $aData["get_control_info"]['dt3']);
-			$this->WriteAttributeFloat('heatTemp', $aData["get_control_info"]['dt4']);
+			if (is_numeric($aData["get_control_info"]['dt1'])){ $this->WriteAttributeFloat('autoTemp', $aData["get_control_info"]['dt1']); }
+			if (is_numeric($aData["get_control_info"]['dt1'])){ $this->WriteAttributeFloat('coolTemp', $aData["get_control_info"]['dt3']); }
+			if (is_numeric($aData["get_control_info"]['dt1'])){ $this->WriteAttributeFloat('heatTemp', $aData["get_control_info"]['dt4']); }
 
 			$this->WriteAttributeString('autoSpeed', $aData["get_control_info"]['dfr1']);
 			$this->WriteAttributeString('dhumSpeed', $aData["get_control_info"]['dfr2']);
@@ -307,16 +307,16 @@
 			$this->WriteAttributeString('heatSpeed', $aData["get_control_info"]['dfr4']);
 			$this->WriteAttributeString('fanSpeed', $aData["get_control_info"]['dfr6']);
 
-			$this->WriteAttributeInteger('autoDir', $aData["get_control_info"]['dfd1']);
-			$this->WriteAttributeInteger('dhumDir', $aData["get_control_info"]['dfd2']);
-			$this->WriteAttributeInteger('coolDir', $aData["get_control_info"]['dfd3']);
-			$this->WriteAttributeInteger('heatDir', $aData["get_control_info"]['dfd4']);
-			$this->WriteAttributeInteger('fanDir', $aData["get_control_info"]['dfd6']);
+			if (is_numeric($aData["get_control_info"]['dfd2'])){ $this->WriteAttributeInteger('autoDir', $aData["get_control_info"]['dfd1']); }
+			if (is_numeric($aData["get_control_info"]['dfd2'])){ $this->WriteAttributeInteger('dhumDir', $aData["get_control_info"]['dfd2']); }
+			if (is_numeric($aData["get_control_info"]['dfd3'])){ $this->WriteAttributeInteger('coolDir', $aData["get_control_info"]['dfd3']); }
+			if (is_numeric($aData["get_control_info"]['dfd4'])){ $this->WriteAttributeInteger('heatDir', $aData["get_control_info"]['dfd4']); }
+			if (is_numeric($aData["get_control_info"]['dfd6'])){ $this->WriteAttributeInteger('fanDir', $aData["get_control_info"]['dfd6']); }
 
-			$this->WriteAttributeInteger('autoHum', $aData["get_control_info"]['dh1']);
-			$this->WriteAttributeInteger('dhumHum', $aData["get_control_info"]['dh2']);
-			$this->WriteAttributeInteger('coolHum', $aData["get_control_info"]['dh3']);
-			$this->WriteAttributeInteger('heatHum', $aData["get_control_info"]['dh4']);
+			if (is_numeric($aData["get_control_info"]['dh1'])){ $this->WriteAttributeInteger('autoHum', $aData["get_control_info"]['dh1']); }
+			if (is_numeric($aData["get_control_info"]['dh2'])){ $this->WriteAttributeInteger('dhumHum', $aData["get_control_info"]['dh2']); }
+			if (is_numeric($aData["get_control_info"]['dh3'])){ $this->WriteAttributeInteger('coolHum', $aData["get_control_info"]['dh3']); }
+			if (is_numeric($aData["get_control_info"]['dh4'])){ $this->WriteAttributeInteger('heatHum', $aData["get_control_info"]['dh4']); }
 		}
 
 		public function RequestAction($Ident, $Value){ 
@@ -508,6 +508,7 @@
 					if($Value > 30) {$Value = 30;}
 					break;					
 				}
+
 			if ($this->ReadPropertyBoolean('StatusEmulieren') == true)
 			{
 				$this->SetValue('dknSetTempValue', $Value);
@@ -528,7 +529,6 @@
 			$data = $this->ReadValues();
 			$data['shum'] = $Value;
 			$this->WriteAircon($data);
-
 		}
 
 		public function SetModueValue(int $Value){
