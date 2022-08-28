@@ -635,9 +635,9 @@
 				if ($Variable['varHasAction'] == true) {
 					
 					$wert="";
-					$id = $this->GetIDForIdent($Variable['ident']);
+					$id = @$this->GetIDForIdent($Variable['ident']);
 
-					$wert = strval(GetValue($id));
+					$wert = @strval(GetValue($id));
 
 					if ($Variable['varType'] == 0){
 						if($wert != "1") $wert = "0"; 
