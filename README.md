@@ -58,7 +58,7 @@ Sollfeuchte           | Wenn Das Gerät die Sollfeuchte einstellen kann, kann si
 Kompressorauslastung  | Wenn Das Gerät die Kompressorauslastung liefert kann sie eingeblendet werden
 Infos                 | Die Informationen über MAC Adresse und Firmwareversion die angezeigt werden können
 Fehlermeldungen       | Die gelieferten Fehlermeldeungen können angezeigt werden 
-eldungen über Verbindugsfehler       | Meldungen über Lesefehler der Anlage werden geloggt oder nicht
+Meldungen über Lesefehler       | Meldungen über Lesefehler der Anlage werden geloggt oder nicht
 
 
 
