@@ -84,6 +84,15 @@
 			]
 		},
         { 
+			"name": "ErrorConnectmessage", 
+			"type": "Select",
+			"caption": "Meldungen über Lesefehler",
+			"options": [
+				{ "caption": "Loggen", 	"value": 1 },
+				{ "caption": "Nicht loggen", "value": 0 }
+			]
+		},
+        { 
 			"name": "StatusEmulieren", 
 			"type": "CheckBox",
 			"caption": "Status emulieren"

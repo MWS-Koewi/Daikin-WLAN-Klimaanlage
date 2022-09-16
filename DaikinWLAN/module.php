@@ -83,6 +83,7 @@
 			$this->RegisterPropertyInteger('Streamer', 1);
 			$this->RegisterPropertyInteger('Leistungsstark', 1);
 			$this->RegisterPropertyInteger('Errormessage', 1);
+			$this->RegisterPropertyInteger('ErrorConnectmessage', 1);
 			$this->RegisterPropertyInteger('Interval', 0);
 
 			$this->RegisterAttributeFloat('autoTemp', 20);
@@ -697,9 +698,9 @@
 			foreach($this->aQueryTypes as $sCurrent) {
 				try {
 					$result = @file_get_contents("http://$ip/$sCurrent", false, $context);
-		
+					
 					if($result === false || substr($result, 4, 2) !== "OK") {
-						$this->LogMessage("Fehler bei Abfrage von Klimaanlage $ip: $result", KL_ERROR);
+						if ($this->ReadPropertyInteger("ErrorConnectmessage") == 1) $this->LogMessage("Fehler bei Abfrage von Klimaanlage $ip.", KL_ERROR);
 						return false;
 					}
 				} catch (Exception $e) {
