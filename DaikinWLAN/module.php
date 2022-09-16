@@ -698,9 +698,9 @@
 			foreach($this->aQueryTypes as $sCurrent) {
 				try {
 					$result = @file_get_contents("http://$ip/$sCurrent", false, $context);
-					
+
 					if($result === false || substr($result, 4, 2) !== "OK") {
-						if ($this->ReadPropertyInteger("ErrorConnectmessage") == 1) $this->LogMessage("Fehler bei Abfrage von Klimaanlage $ip.", KL_ERROR);
+						if ($this->ReadPropertyInteger("ErrorConnectmessage") == 1) $this->LogMessage("Fehler bei Abfrage von Klimaanlage $ip", KL_WARNING);
 						return false;
 					}
 				} catch (Exception $e) {
