@@ -457,9 +457,10 @@
 
 		public function SetFanRateValue(int $Value){
 
-			$id = $this->GetIDForIdent('dknSetBooster');
-			if(GetValueBoolean($id) == 1) return;
-
+			$id = @$this->GetIDForIdent('dknSetBooster');
+			if ($id != null)
+				if(GetValueBoolean($id) == 1) return;
+				
 			$id = $this->GetIDForIdent('dknSetModeValue');
 			if(GetValueInteger($id) == 2) return;
 
