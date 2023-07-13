@@ -11,6 +11,7 @@ Beschreibung des Moduls.
 6. [WebFront](#6-webfront)
 7. [PHP-Befehlsreferenz](#7-php-befehlsreferenz)
 8. [Sonstiges](#8-sonstiges)
+8. [Changelog](#9-changelog)
 
 ### 1. Funktionsumfang
 
@@ -80,6 +81,7 @@ dknSetModeValue     | Modus                 | Int    | Daikin.Mode           | M
 dknCompressor       | Kompressor Auslastung | Int    | ~Intensity.100        | Auslastung des Kompressors
 dknSetFanRateValue  | Lüfterstufe           | Int    | Daikin.FanRate        | Intensität des Gebläses
 dknSetFanDirValue   | Lüfterrichtung        | Int    | Daikin.FanDirection   | Richtung in der die Lamellen schwenken
+dknSetHomeKitState  | Homkit Steuerung      | Int    | Daikin.HomeKitState   | Steuerung der Anlage über Homekit
 dknSetStreamer      | Streamer              | Bool   | ~Switch               | Luftreiniger
 dknSetBooster       | Leistungsstark        | Bool   | ~Switch               | Power Stufe
 dknErrorMessage     | Fehlermeldung         | String |                       | Fehlermeldung im Klartext
@@ -127,3 +129,12 @@ Setzt den gewünschen Modus der Anlage.
 ### 8. Sonstiges
 Verwendung auf eigene Gefahr, der Autor übernimmt weder Gewähr noch Haftung. 
 Nur für den privaten Gebrauch.
+
+### 9. Changelog
+Version 1.2.0 (2023-07-14)
+* Fix: 
+	* Anpassungen an PHP 8 
+	* Firmware wird jetzt mit . statt _ zwischen den Ziffern angezeigt
+	* Mac Adresse wird jetzt in der üblichen Schreibweise mit : zwischen den zweier Zahlenblöcken dargestellt
+* Neu: 
+	* Eine optionale Variable für die Steuerung via HomeKit

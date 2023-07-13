@@ -75,6 +75,15 @@
 			]
 		},
         { 
+			"name": "HomeKit", 
+			"type": "Select",
+			"caption": "Homkit Steuerung",
+			"options": [
+				{ "caption": "Anzeigen", 	"value": 1 },
+				{ "caption": "Nicht anzeigen", "value": 0 }
+			]
+		},
+        { 
 			"name": "Errormessage", 
 			"type": "Select",
 			"caption": "Fehlermeldungen",

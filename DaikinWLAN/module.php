@@ -20,9 +20,10 @@
 			array("name" => "Streamer",              "ident" => "dknSetStreamer",       "pos" => 10, "anzeige" => "str",  "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
 			array("name" => "Leistungsstark",        "ident" => "dknSetBooster",        "pos" => 11, "anzeige" => "bos",  "varType" => 0,  "varProfile" => "~Switch",              "queryType" => "get_control_info",   "value"=>"adv",     "varHasAction" => true),
 			array("name" => "Kompressor Auslastung", "ident" => "dknCompressor",        "pos" => 12, "anzeige" => "aus",  "varType" => 1,  "varProfile" => "~Intensity.100",       "queryType" => "get_sensor_info",    "value"=>"cmpfreq", "varHasAction" => false),
-			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 13, "anzeige" => "err",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
-			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 14, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
-			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 15, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
+			array("name" => "HomeKit Status",        "ident" => "dknHomeKitState",      "pos" => 13, "anzeige" => "hki",  "varType" => 1,  "varProfile" => "Daikin.HomeKitState",  "queryType" => "external",           "value"=>"hsk",     "varHasAction" => true),
+			array("name" => "Fehlermeldung",         "ident" => "dknErrorMessage",      "pos" => 14, "anzeige" => "err",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"err",     "varHasAction" => false),
+			array("name" => "Firmware Version",      "ident" => "dknFirmware",          "pos" => 15, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"ver",     "varHasAction" => false),
+			array("name" => "MAC Adresse",           "ident" => "dknMAC",               "pos" => 16, "anzeige" => "inf",  "varType" => 3,  "varProfile" => "",                     "queryType" => "basic_info",         "value"=>"mac",     "varHasAction" => false)
 		);
 
 		var $aQueryTypes = array("common/basic_info", "aircon/get_control_info", "aircon/get_sensor_info");
@@ -85,6 +86,7 @@
 			$this->RegisterPropertyInteger('Errormessage', 1);
 			$this->RegisterPropertyInteger('ErrorConnectmessage', 1);
 			$this->RegisterPropertyInteger('Interval', 0);
+			$this->RegisterPropertyInteger('HomeKit', 0);
 
 			$this->RegisterAttributeFloat('autoTemp', 20);
 			$this->RegisterAttributeFloat('coolTemp', 20);
@@ -171,6 +173,12 @@
 					continue;
 				}
 
+				if($property['anzeige'] == "hki" && $this->ReadPropertyInteger("HomeKit") == 0) {
+					@$this->DisableAction($property['ident']);
+					$this->UnregisterVariable($property['ident']);
+					continue;
+				}
+
 				$var = @IPS_GetObjectIDByIdent($property['ident'], $this->InstanceID);
 				if(!$var) {
 					switch ($property['varType']) {
@@ -237,9 +245,9 @@
 				if($Variable['anzeige'] == "hus" && $this->ReadPropertyInteger("Sollfeuchte") == 0) {continue;}
 				if($Variable['anzeige'] == "str" && $this->ReadPropertyInteger("Streamer") == 0) {continue;}
 				if($Variable['anzeige'] == "bos" && $this->ReadPropertyInteger("Leistungsstark") == 0) {continue;}
+				if($Variable['anzeige'] == "hki") {continue;}
 
 				$id = $this->GetIDForIdent($Variable['ident']);
-
 				switch ($Variable['varType']){
 					case 0:
 						if($Variable['ident'] == 'dknSetStreamer'){
@@ -260,6 +268,33 @@
 						}
 						else{						
 							SetValueBoolean($id, $aData[$Variable['queryType']][$Variable['value']]);
+							if($Variable['ident'] == 'dknPowerSwitch' && $this->ReadPropertyInteger("HomeKit") == 1 ){
+								$hkiStatusId = @IPS_GetObjectIDByIdent('dknHomeKitState', $this->InstanceID);
+								$modus = @IPS_GetObjectIDByIdent('dknSetModeValue', $this->InstanceID);
+								if(GetValue($id) == 1){
+									// 0: Aus, 1: Heizen, 2: Kühlen, 3: Automatisch
+									// default ist automatik
+									$lHomekitMode = 3;
+									switch( $modus )
+									{
+										case 1:  // Automatik
+										case 2:  // Entfeuchten
+										case 6:  // Lüften
+											$lHomekitMode = 3;
+										break;
+										case 3:  // Kühlen
+											$lHomekitMode = 2;
+										break;
+										case 4:  // Heizen
+											$lHomekitMode = 1;
+										break;
+									}
+									SetValueInteger($hkiStatusId, $lHomekitMode);	
+								}
+								else{
+									SetValueInteger($hkiStatusId, 0);									
+								}
+							}
 						}
 						break;
 					case 1:
@@ -274,12 +309,34 @@
 									$temp=1;
 								}
 								SetValueInteger($id, $temp);
+
+								$hkiStatusId = @IPS_GetObjectIDByIdent('dknHomeKitState', $this->InstanceID);
+								$PowerStatusID = @IPS_GetObjectIDByIdent('dknPowerSwitch', $this->InstanceID);
+								if(GetValue($PowerStatusID) == 1){
+									// 0: Aus, 1: Heizen, 2: Kühlen, 3: Automatisch
+									// default ist automatik
+									$lHomekitMode = 3;
+									switch( $temp )
+									{
+										case 1:  // Automatik
+										case 2:  // Entfeuchten
+										case 6:  // Lüften
+											$lHomekitMode = 3;
+										break;
+										case 3:  // Kühlen
+											$lHomekitMode = 2;
+										break;
+										case 4:  // Heizen
+											$lHomekitMode = 1;
+										break;
+									}
+									SetValueInteger($hkiStatusId, $lHomekitMode);
+								}
 							}		
 							else{
 								SetValueInteger($id, $aData[$Variable['queryType']][$Variable['value']]);
 							}
 						}
-
 						break;
 					case 2:
 						if (is_numeric($aData[$Variable['queryType']][$Variable['value']])){
@@ -289,6 +346,14 @@
 					case 3:
 						if($Variable['ident'] == 'dknErrorMessage'){
 							SetValueString($id, $this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]]);
+						}
+						elseif($Variable['ident'] == 'dknFirmware'){
+							$Wert = str_replace("_", ".", $aData[$Variable['queryType']][$Variable['value']]);
+							SetValueString($id, $Wert);
+						}
+						elseif($Variable['ident'] == 'dknMAC'){
+							$Wert = implode(":", str_split($aData[$Variable['queryType']][$Variable['value']],2)); 
+							SetValueString($id, $Wert);
 						}
 						else{
 							SetValueString($id, $aData[$Variable['queryType']][$Variable['value']]);
@@ -344,10 +409,13 @@
 					$this->SetFanDirValue($Value);
 					break;
 				case 'dknSetModeValue':
-					$this->SetModueValue($Value);
+					$this->SetModeValue($Value);
 					break;
 				case 'dknPowerSwitch':
 					$this->SetPowerSwitch($Value);
+					break;
+				case 'dknHomeKitState':
+					$this->SetHomeKitState($Value);
 					break;
 				}
 
@@ -455,6 +523,33 @@
 			$this->WriteAircon($data);
 		}
 
+		public function SetHomeKitState(int $Value){
+
+			if ($this->ReadPropertyBoolean('StatusEmulieren') == true)
+			{
+				$this->SetValue('dknHomeKitState', $Value);
+			}
+
+			if($Value == 0){
+				$this->SetPowerSwitch(false);
+			}
+			else{
+				$this->SetPowerSwitch(true);
+				switch ($Value){
+					case 1:
+						$this->SetModeValue(4);
+						break;
+					case 2:
+						$this->SetModeValue(3);
+						break;
+					case 3:
+						$this->SetModeValue(1);
+						break;
+				}
+			}
+
+		}
+
 		public function SetFanRateValue(int $Value){
 
 			$id = @$this->GetIDForIdent('dknSetBooster');
@@ -518,7 +613,7 @@
 			}
 
 			$data = $this->ReadValues();
-			$data['stemp'] = str_replace(',', '.', $Value);
+			$data['stemp'] = str_replace(',', '.', "$Value");
 
 			$this->WriteAircon($data);
 		}
@@ -534,13 +629,14 @@
 			$this->WriteAircon($data);
 		}
 
-		public function SetModueValue(int $Value){
+		public function SetModeValue(int $Value){
 			
 			$data = $this->ReadValues();
 			switch ($Value){
 				case 1:
 					$data['mode'] = $Value;
-					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('autoTemp')));
+					$Wert = $this->ReadAttributeFloat('autoTemp');
+					$data['stemp'] = strval(str_replace(',','.',"$Wert"));
 					$data['f_rate'] = $this->ReadAttributeString('autoSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('autoDir');
 					$data['shum'] = $this->ReadAttributeInteger('autoHum');
@@ -553,14 +649,16 @@
 					break;
 				case 3:
 					$data['mode'] = $Value;
-					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('coolTemp')));
+					$Wert = $this->ReadAttributeFloat('coolTemp');
+					$data['stemp'] = strval(str_replace(',','.',"$Wert"));
 					$data['f_rate'] = $this->ReadAttributeString('coolSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('coolDir');
 					$data['shum'] = $this->ReadAttributeInteger('coolHum');
 					break;
 				case 4:
 					$data['mode'] = $Value;
-					$data['stemp'] = strval(str_replace(',','.',$this->ReadAttributeFloat('heatTemp')));
+					$Wert = $this->ReadAttributeFloat('heatTemp');
+					$data['stemp'] = strval(str_replace(',','.',"$Wert"));
 					$data['f_rate'] = $this->ReadAttributeString('heatSpeed');
 					$data['f_dir'] = $this->ReadAttributeInteger('heatDir');
 					$data['shum'] = $this->ReadAttributeInteger('heatHum');
@@ -610,10 +708,11 @@
 			if(!IPS_VariableProfileExists($profileName)) {
 				IPS_CreateVariableProfile($profileName, 1);
 			}
-			IPS_SetVariableProfileAssociation($profileName, 0, "Aus", "", 0x00FF01);
+			IPS_SetVariableProfileAssociation($profileName, 0, "Aus", "", -1);
 			IPS_SetVariableProfileAssociation($profileName, 1, "Vertikal", "", 0xFFFF01);
 			IPS_SetVariableProfileAssociation($profileName, 2, "Horizontal", "", 0xFFCC00);
 			IPS_SetVariableProfileAssociation($profileName, 3, "3D", "", 0xFE0000);
+
 
 			$profileName = "Daikin.FanRate";
 			if(!IPS_VariableProfileExists($profileName)) {
@@ -626,6 +725,15 @@
 			IPS_SetVariableProfileAssociation($profileName, 4, "Stufe 3", "", 0xFF9900);
 			IPS_SetVariableProfileAssociation($profileName, 5, "Stufe 4", "", 0xFF6600);
 			IPS_SetVariableProfileAssociation($profileName, 6, "Stufe 5", "", 0x993302);
+		
+			$profileName = "Daikin.HomeKitState";
+			if(!IPS_VariableProfileExists($profileName)) {
+				IPS_CreateVariableProfile($profileName, 1);
+			}
+			IPS_SetVariableProfileAssociation($profileName, 0, "Aus", "", 0x00FF01);
+			IPS_SetVariableProfileAssociation($profileName, 1, "Heizen", "Flame", 0xFE0000);
+			IPS_SetVariableProfileAssociation($profileName, 2, "Kühlen", "Snowflake", 0x00FEFC);
+			IPS_SetVariableProfileAssociation($profileName, 3, "Automatik", "Gear", 0x3366FF);
 		}
 
 		private function ReadValues(){
