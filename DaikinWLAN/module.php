@@ -309,28 +309,30 @@
 									$temp=1;
 								}
 								SetValueInteger($id, $temp);
-
-								$hkiStatusId = @IPS_GetObjectIDByIdent('dknHomeKitState', $this->InstanceID);
-								$PowerStatusID = @IPS_GetObjectIDByIdent('dknPowerSwitch', $this->InstanceID);
-								if(GetValue($PowerStatusID) == 1){
-									// 0: Aus, 1: Heizen, 2: Kühlen, 3: Automatisch
-									// default ist automatik
-									$lHomekitMode = 3;
-									switch( $temp )
-									{
-										case 1:  // Automatik
-										case 2:  // Entfeuchten
-										case 6:  // Lüften
-											$lHomekitMode = 3;
-										break;
-										case 3:  // Kühlen
-											$lHomekitMode = 2;
-										break;
-										case 4:  // Heizen
-											$lHomekitMode = 1;
-										break;
+								
+								if($this->ReadPropertyInteger("HomeKit") == 1){
+									$hkiStatusId = @IPS_GetObjectIDByIdent('dknHomeKitState', $this->InstanceID);
+									$PowerStatusID = @IPS_GetObjectIDByIdent('dknPowerSwitch', $this->InstanceID);
+									if(GetValue($PowerStatusID) == 1){
+										// 0: Aus, 1: Heizen, 2: Kühlen, 3: Automatisch
+										// default ist automatik
+										$lHomekitMode = 3;
+										switch( $temp )
+										{
+											case 1:  // Automatik
+											case 2:  // Entfeuchten
+											case 6:  // Lüften
+												$lHomekitMode = 3;
+											break;
+											case 3:  // Kühlen
+												$lHomekitMode = 2;
+											break;
+											case 4:  // Heizen
+												$lHomekitMode = 1;
+											break;
+										}
+										SetValueInteger($hkiStatusId, $lHomekitMode);
 									}
-									SetValueInteger($hkiStatusId, $lHomekitMode);
 								}
 							}		
 							else{
