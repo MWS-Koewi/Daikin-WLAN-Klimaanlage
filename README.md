@@ -131,6 +131,11 @@ Verwendung auf eigene Gefahr, der Autor übernimmt weder Gewähr noch Haftung.
 Nur für den privaten Gebrauch.
 
 ### 9. Changelog
+Version 1.3.0 (2025-03-24)
+* Fix: 
+	* Erweiterung der Fehlerliste
+  	* Bei der Abfrage der Anlage weitere Prüfungen einegfügt
+
 Version 1.2.0 (2023-07-14)
 * Fix: 
 	* Anpassungen an PHP 8 
