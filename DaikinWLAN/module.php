@@ -40,20 +40,25 @@
 			"UA" => "Fehler bei Kombination Innen und Außengerät",
 			"A1" => "Fehler bei Platine der Inneneinheit",
 			"A5" => "Schutz gegen Einfrieren oder Hochdruck-Kontrolle",
+			"A6" => "Störung: Ventilatormotor Innengerät",
 			"AH" => "Fehler bei Streamer-Einheit",
 			"C4" => "Fehler bei Wärmetauscher-Thermistor der Inneneinheit",
 			"C7" => "Fehler bei Öffnen oder Schließen der Frontblende",
 			"C9" => "Fehler bei Raumtemperatur-Thermistor",
 			"CC" => "Fehler bei Feuchtigkeitssensor",
-			"EA" => "Fehler bei 4-Wege-Ventil",
+			"CE" => "Störung: Intelligenter Thermosensor",			
 			"E1" => "Fehler bei Platine der Außeneinheit",
+			"E3" => "Außengerät: Auslösung Hochdruckschalter ",
 			"E5" => "Aktivierung des Überlastschutzes (Überlastung des Verdichters)",
 			"E6" => "Verdichter-Blockierung",
 			"E7" => "Blockierung des Gleichstrom-Ventilators",
 			"E8" => "Eingangsstrom-Überstrom",
+			"EA" => "Fehler bei 4-Wege-Ventil",
 			"F3" => "Temperatursteuerung bei Abflussrohr",
 			"F6" => "Hochdruck-Kontrolle (bei Kühlen)",
+			"F8" => "Systemabschaltung aufgrund zu hoher interner Verdichtertemperatur",
 			"H0" => "Fehler bei Sensor des Verdichtersystems",
+			"H3" => "Außengerät: Störung Hochdruckschalter",
 			"H6" => "Fehler bei Positionssensor",
 			"H8" => "Fehler bei Sensor DC-Spannung / Stromstärke",
 			"H9" => "Fehler bei Außenlufttemperatur-Thermistor",
@@ -62,9 +67,12 @@
 			"L3" => "Fehler durch Überhitzung einer elektrischen Komponente",
 			"L4" => "Anstieg bei Radiatorlamellen-Temperatur",
 			"L5" => "Momentaner Überstrom bei Inverter (Gleichstrom)",
-			"P4" => "Fehler bei Radiatiorlamellen-Thermistor",
-			"F8" => "Fehler bei interner Temperatur des Verdichters",
-
+			"P4" => "Fehler bei Radiatiorlamellen-Thermistor",			
+			"U0" => "Außengerät: Kältemittelmangel",
+			"U2" => "Außengerät: Fehler Versorgungsspannung",
+			"U4" => "Kommunikationsproblem Innen-/Außengerät",
+			"U5" => "Fehlfunktion Übertragung zwischen Innengerät und Fernbedienung",
+			"UA" => "Problem wegen Konflikt Innengerät, Außengerät",
 		);
 		
 		public function Create(){
@@ -347,7 +355,11 @@
 						break;
 					case 3:
 						if($Variable['ident'] == 'dknErrorMessage'){
-							SetValueString($id, $this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]]);
+							if (isset($aData[$Variable['queryType']][$Variable['value']]) && isset($this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]])) {
+								SetValueString($id, $this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]]);
+							} else {
+								IPS_LogMessage("DaikinWLAN", "Warnung: Fehlercode nicht gefunden für ID: $id");
+							}
 						}
 						elseif($Variable['ident'] == 'dknFirmware'){
 							$Wert = str_replace("_", ".", $aData[$Variable['queryType']][$Variable['value']]);
