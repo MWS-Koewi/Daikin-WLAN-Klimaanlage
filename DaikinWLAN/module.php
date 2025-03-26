@@ -358,7 +358,7 @@
 							if (isset($aData[$Variable['queryType']][$Variable['value']]) && isset($this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]])) {
 								SetValueString($id, $this->aErrorCodeTranslation[$aData[$Variable['queryType']][$Variable['value']]]);
 							} else {
-								$this->LogMessage("DaikinWLAN", "Warnung: Fehlercode nicht gefunden für ID: $id");
+								$this->LogMessage("Fehlercode nicht gefunden für ID: $id: ", KL_WARNING);
 							}
 						}
 						elseif($Variable['ident'] == 'dknFirmware'){
